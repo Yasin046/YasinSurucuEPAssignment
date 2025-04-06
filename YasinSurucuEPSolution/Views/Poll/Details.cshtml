@@ -1,0 +1,44 @@
+﻿@model Domain.Models.Poll
+@{
+    ViewBag.Title = "Poll Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@Model.Title</h2>
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<div>
+    <canvas id="pollChart" width="400" height="200"></canvas>
+</div>
+<p><strong>Option 1:</strong> @Model.Option1Text - Votes: @Model.Option1VotesCount</p>
+<p><strong>Option 2:</strong> @Model.Option2Text - Votes: @Model.Option2VotesCount</p>
+<p><strong>Option 3:</strong> @Model.Option3Text - Votes: @Model.Option3VotesCount</p>
+<a class="btn btn-secondary" href="@Url.Action("Vote", "Poll", new { id = Model.Id })">Vote on this Poll</a>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('pollChart').getContext('2d');
+    var pollChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['@Model.Option1Text', '@Model.Option2Text', '@Model.Option3Text'],
+            datasets: [{
+                label: 'Votes',
+                data: [@Model.Option1VotesCount, @Model.Option2VotesCount, @Model.Option3VotesCount],
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

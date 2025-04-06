@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Domain.Models.Poll>
+@{
+    ViewBag.Title = "Polls List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Polls List</h2>
+<a class="btn btn-success mb-3" href="@Url.Action("Create", "Poll")">Create New Poll</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date Created</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var poll in Model)
+        {
+            <tr>
+                <td>@poll.Title</td>
+                <td>@poll.DateCreated.ToString("g")</td>
+                <td>
+                    <a class="btn btn-primary btn-sm" href="@Url.Action("Details", "Poll", new { id = poll.Id })">Details</a>
+                    <a class="btn btn-secondary btn-sm" href="@Url.Action("Vote", "Poll", new { id = poll.Id })">Vote</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
